@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/Truemedia/rapid-intent-builder#readme",
   "devDependencies": {
+    "jsonfile": "^5.0.0",
     "yargs": "^12.0.2"
   },
   "dependencies": {

@@ -1,5 +1,6 @@
-const verboseUtterance = require('verbose-utterance');
+const jsonfile = require('jsonfile');
 const path = require('path');
+const verboseUtterance = require('verbose-utterance');
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter")
     .option('file', {
@@ -21,5 +22,9 @@ verboseUtterance(filename).then( (utterances) => {
     let keywords = []; // TODO: Populate this with slots
 
     let intent = {intentName, utterances, keywords};
-    console.log(intent);
+    let intentFile = `${intentName}.json`;
+    jsonfile.writeFile(intentFile, [intent], function (err) {
+      if (err) console.error(err)
+      console.log(`intent file created (${intentFile})`);
+    });
 });
