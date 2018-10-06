@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/Truemedia/rapid-intent-builder/issues"
   },
-  "homepage": "https://github.com/Truemedia/rapid-intent-builder#readme"
+  "homepage": "https://github.com/Truemedia/rapid-intent-builder#readme",
+  "devDependencies": {
+    "yargs": "^12.0.2"
+  },
+  "dependencies": {
+    "verbose-utterance": "^1.0.0"
+  }
 }
