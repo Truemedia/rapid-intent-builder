@@ -1,0 +1,29 @@
+{
+  "name": "rapid-intent-builder",
+  "version": "0.0.1",
+  "description": "Rapid intent builder for quick prototyping/development of complex bots",
+  "bin": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Truemedia/rapid-intent-builder.git"
+  },
+  "keywords": [
+    "rapid",
+    "intent",
+    "builder",
+    "molir",
+    "alexa",
+    "prototyping",
+    "natural",
+    "language"
+  ],
+  "author": "Wade Penistone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Truemedia/rapid-intent-builder/issues"
+  },
+  "homepage": "https://github.com/Truemedia/rapid-intent-builder#readme"
+}
