@@ -4,9 +4,9 @@ const path = require('path');
 const verboseUtterance = require('verbose-utterance');
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
-    .option('glob', {
-        alias: 'g',
-        default: 'samples/*.utter',
+    .option('utters', {
+        alias: 'u',
+        default: 'samples/en_GB/*.utter',
         describe: 'Glob to match utter files',
         type: 'string'
     })
@@ -33,11 +33,11 @@ if (yargs.argv.h) {
     yargs.showHelp();
 }
 
-let globPath = yargs.argv.g;
+let utterPath = yargs.argv.u;
 let adapter = yargs.argv.a;
 
 
-glob.readdirPromise(globPath)
+glob.readdirPromise(utterPath)
   .then(files => {
     return Promise.all(files.map( filename => {
       return verboseUtterance(filename).then( (utterances) => {
