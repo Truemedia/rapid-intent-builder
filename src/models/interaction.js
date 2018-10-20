@@ -10,7 +10,7 @@ module.exports = class Interaction {
     {
         return {
             invocationName: this.name,
-            intents: this.intents,
+            intents: this.intents.map(intent => intent.toJson()),
             types: this.types
         };
     }

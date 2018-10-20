@@ -7,4 +7,11 @@ module.exports = class Intents extends DataObject
         super();
         this.intents = intents;
     }
+
+    toJson()
+    {
+      return {
+        intents: this.intents.map(intent => intent.toJson())
+      };
+    }
 };

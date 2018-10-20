@@ -5,7 +5,7 @@ module.exports = class MolirIntent extends Intent {
     {
         return {
             intentName: this.name,
-            utterances: this.samples,
+            utterences: this.samples,
             keywords: this.slots
         };
     }
