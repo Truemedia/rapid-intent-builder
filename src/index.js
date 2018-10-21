@@ -9,6 +9,7 @@ const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
     .option('adapter', options.adapter)
     .option('dest', options.dest)
+    .option('env', options.env)
     .option('lexes', options.lexes)
     .option('utters', options.utters)
     .help('h')
@@ -24,13 +25,12 @@ const Intents = require('./models/intents');
 const Intent = require('./models/intent');
 const Interaction = require('./models/interaction');
 
-if (yargs.argv.h) {
-    yargs.showHelp();
-}
+if (yargs.argv.h) { yargs.showHelp(); }
 
 // Set options from cli arguments
 let adapter = yargs.argv.a;
 let dest = yargs.argv.d;
+let env = yargs.argv.e;
 let utterPath = yargs.argv.u;
 let lexPath = yargs.argv.l;
 
@@ -81,8 +81,9 @@ Promise.all([ // Get list of all files
       intents = new Interaction(skillName, intents);
     break;
   }
+  let formatting = (env == 'dev') ? { spaces: 2, EOL: '\r\n' } : {};
 
-  jsonfile.writeFile(dest, intents.toJson(), { spaces: 2, EOL: '\r\n' }, function (err) {
+  jsonfile.writeFile(dest, intents.toJson(), formatting, function (err) {
     if (err) console.error(err)
     console.log(`intent file created (${dest})`);
   });

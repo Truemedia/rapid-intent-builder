@@ -11,6 +11,12 @@
     "describe": "Destination of the generated intents file (path)",
     "type": "string"
   },
+  "env": {
+    "alias": "e",
+    "default": "dev",
+    "describe": "Environment (dev or prod)",
+    "type": "string"
+  },
   "lexes": {
     "alias": "l",
     "default": "samples/en_GB/*.json",
