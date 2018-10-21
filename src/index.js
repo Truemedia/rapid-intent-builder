@@ -6,22 +6,28 @@ const verboseUtterance = require('verbose-utterance');
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
     .option('utters', {
-        alias: 'u',
-        default: 'samples/en_GB/*.utter',
-        describe: 'Glob to match utter files',
-        type: 'string'
+      alias: 'u',
+      default: 'samples/en_GB/*.utter',
+      describe: 'Glob to match utter files',
+      type: 'string'
     })
     .option('lexes', {
-        alias: 'l',
-        default: 'samples/en_GB/*.json',
-        describe: 'Glob to match lexicon files',
-        type: 'string'
+      alias: 'l',
+      default: 'samples/en_GB/*.json',
+      describe: 'Glob to match lexicon files',
+      type: 'string'
     })
     .option('adapter', {
-        alias: 'a',
-        default: 'molir',
-        describe: 'Name of adapter to use for export (alexa, molir)',
-        type: 'string'
+      alias: 'a',
+      default: 'molir',
+      describe: 'Name of adapter to use for export (alexa, molir)',
+      type: 'string'
+    })
+    .option('dest', {
+      alias: 'd',
+      default: 'build/intents.json',
+      describe: 'Destination of the generated intents file (path)',
+      type: 'string'
     })
     .help('h')
     .alias('h', 'help');
@@ -41,9 +47,10 @@ if (yargs.argv.h) {
 }
 
 // Set options from cli arguments
+let adapter = yargs.argv.a;
+let dest = yargs.argv.d;
 let utterPath = yargs.argv.u;
 let lexPath = yargs.argv.l;
-let adapter = yargs.argv.a;
 
 Promise.all([ // Get list of all files
   glob(utterPath),
@@ -93,9 +100,8 @@ Promise.all([ // Get list of all files
     break;
   }
 
-  let intentFile = 'intents.json'; // TODO: Make option
-  jsonfile.writeFile(intentFile, intents.toJson(), { spaces: 2, EOL: '\r\n' }, function (err) {
+  jsonfile.writeFile(dest, intents.toJson(), { spaces: 2, EOL: '\r\n' }, function (err) {
     if (err) console.error(err)
-    console.log(`intent file created (${intentFile})`);
+    console.log(`intent file created (${dest})`);
   });
 });
