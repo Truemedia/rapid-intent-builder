@@ -1,4 +1,5 @@
-const glob = require('glob-fs')({ gitignore: true });
+#! /usr/bin/env node
+const glob = require('glob-promise');
 const jsonfile = require('jsonfile');
 const path = require('path');
 const verboseUtterance = require('verbose-utterance');
@@ -8,6 +9,12 @@ const yargs = require('yargs')
         alias: 'u',
         default: 'samples/en_GB/*.utter',
         describe: 'Glob to match utter files',
+        type: 'string'
+    })
+    .option('lexes', {
+        alias: 'l',
+        default: 'samples/en_GB/*.json',
+        describe: 'Glob to match lexicon files',
         type: 'string'
     })
     .option('adapter', {
@@ -33,47 +40,62 @@ if (yargs.argv.h) {
     yargs.showHelp();
 }
 
+// Set options from cli arguments
 let utterPath = yargs.argv.u;
+let lexPath = yargs.argv.l;
 let adapter = yargs.argv.a;
 
-
-glob.readdirPromise(utterPath)
-  .then(files => {
-    return Promise.all(files.map( filename => {
-      return verboseUtterance(filename).then( (utterances) => {
-          let intentName = path.basename(filename, path.extname(filename));
-          let keywords = []; // TODO: Populate this with slots
-
-          let intent = null;
-          switch (adapter) {
-              case 'molir':
-                  intent = new MolirIntent(intentName, utterances, keywords);
-              break;
-              default:
-                  intent = new Intent(intentName, utterances, keywords);
-              break;
-          }
-
-
-        return intent;
-      });
-    })).then(intents => {
-      switch (adapter) {
-          case 'molir':
-              console.log('Exporting using adapter: molir');
-              intents = new Intents(intents);
-          break;
-          default:
-              console.log('Exporting using adapter: alexa');
-              let skillName = 'skillName'; // TODO: Add option
-              intents = new Interaction(skillName, intents);
-          break;
+Promise.all([ // Get list of all files
+  glob(utterPath),
+  glob(lexPath)
+]).then(filePaths => { // Group files
+  let intents = {};
+  filePaths.map(files => {
+    files.map(file => {
+      let base = path.basename(file);
+      let [name, ext] = base.split('.');
+      if (intents[name] == undefined) {
+        intents[name] = {};
       }
-
-      let intentFile = 'intents.json'; // TODO: Make option
-      jsonfile.writeFile(intentFile, intents.toJson(), { spaces: 2, EOL: '\r\n' }, function (err) {
-        if (err) console.error(err)
-        console.log(`intent file created (${intentFile})`);
-      });
+      intents[name][ext] = file;
     });
   });
+  return intents;
+}).then(intents => { // Build intents
+  return Promise.all( Object.entries(intents).map(intent => {
+    let [name, opts] = intent;
+    return jsonfile.readFile(opts.json)
+      .then(lex => {
+        return verboseUtterance(opts.utter, lex);
+      }).then(utterances => {
+        let keywords = []; // TODO: Populate this with slots
+        switch (adapter) {
+          case 'molir':
+            intent = new MolirIntent(name, utterances, keywords);
+          break;
+          default:
+            intent = new Intent(name, utterances, keywords);
+          break;
+        }
+        return intent;
+      });
+  }));
+}).then(intents => { // Group intents and output
+  switch (adapter) {
+    case 'molir':
+      console.log('Exporting using adapter: molir');
+      intents = new Intents(intents);
+    break;
+    default:
+      console.log('Exporting using adapter: alexa');
+      let skillName = 'skillName'; // TODO: Add option
+      intents = new Interaction(skillName, intents);
+    break;
+  }
+
+  let intentFile = 'intents.json'; // TODO: Make option
+  jsonfile.writeFile(intentFile, intents.toJson(), { spaces: 2, EOL: '\r\n' }, function (err) {
+    if (err) console.error(err)
+    console.log(`intent file created (${intentFile})`);
+  });
+});

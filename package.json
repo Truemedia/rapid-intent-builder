@@ -31,8 +31,8 @@
     "yargs": "^12.0.2"
   },
   "dependencies": {
-    "glob-fs": "^0.1.7",
+    "glob-promise": "^3.4.0",
     "lemme-lex": "^0.1.0",
-    "verbose-utterance": "^1.0.0"
+    "verbose-utterance": "^1.1.0"
   }
 }
