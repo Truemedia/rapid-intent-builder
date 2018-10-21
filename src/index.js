@@ -10,6 +10,7 @@ const yargs = require('yargs')
     .option('adapter', options.adapter)
     .option('dest', options.dest)
     .option('env', options.env)
+    .option('invoke', options.invoke)
     .option('lexes', options.lexes)
     .option('utters', options.utters)
     .help('h')
@@ -31,8 +32,9 @@ if (yargs.argv.h) { yargs.showHelp(); }
 let adapter = yargs.argv.a;
 let dest = yargs.argv.d;
 let env = yargs.argv.e;
-let utterPath = yargs.argv.u;
+let invoke = yargs.argv.i;
 let lexPath = yargs.argv.l;
+let utterPath = yargs.argv.u;
 
 Promise.all([ // Get list of all files
   glob(utterPath),
@@ -77,8 +79,7 @@ Promise.all([ // Get list of all files
     break;
     default:
       console.log('Exporting using adapter: alexa');
-      let skillName = 'skillName'; // TODO: Add option
-      intents = new Interaction(skillName, intents);
+      intents = new Interaction(invoke, intents);
     break;
   }
   let formatting = (env == 'dev') ? { spaces: 2, EOL: '\r\n' } : {};
