@@ -3,32 +3,14 @@ const glob = require('glob-promise');
 const jsonfile = require('jsonfile');
 const path = require('path');
 const verboseUtterance = require('verbose-utterance');
+const options = require('./options.json');
+
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
-    .option('utters', {
-      alias: 'u',
-      default: 'samples/en_GB/*.utter',
-      describe: 'Glob to match utter files',
-      type: 'string'
-    })
-    .option('lexes', {
-      alias: 'l',
-      default: 'samples/en_GB/*.json',
-      describe: 'Glob to match lexicon files',
-      type: 'string'
-    })
-    .option('adapter', {
-      alias: 'a',
-      default: 'molir',
-      describe: 'Name of adapter to use for export (alexa, molir)',
-      type: 'string'
-    })
-    .option('dest', {
-      alias: 'd',
-      default: 'build/intents.json',
-      describe: 'Destination of the generated intents file (path)',
-      type: 'string'
-    })
+    .option('adapter', options.adapter)
+    .option('dest', options.dest)
+    .option('lexes', options.lexes)
+    .option('utters', options.utters)
     .help('h')
     .alias('h', 'help');
 

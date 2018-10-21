@@ -1,0 +1,26 @@
+{
+  "adapter": {
+    "alias": "a",
+    "default": "molir",
+    "describe": "Name of adapter to use for export (alexa, molir)",
+    "type": "string"
+  },
+  "dest": {
+    "alias": "d",
+    "default": "build/intents.json",
+    "describe": "Destination of the generated intents file (path)",
+    "type": "string"
+  },
+  "lexes": {
+    "alias": "l",
+    "default": "samples/en_GB/*.json",
+    "describe": "Glob to match lexicon files",
+    "type": "string"
+  },
+  "utters": {
+    "alias": "u",
+    "default": "samples/en_GB/*.utter",
+    "describe": "Glob to match utter files",
+    "type": "string"
+  }
+}
