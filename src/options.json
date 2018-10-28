@@ -25,14 +25,20 @@
   },
   "lexes": {
     "alias": "l",
+    "default": "samples/en_GB/*.txt",
+    "describe": "Glob to match lexicon files (.txt)",
+    "type": "string"
+  },
+  "slots": {
+    "alias": "s",
     "default": "samples/en_GB/*.json",
-    "describe": "Glob to match lexicon files",
+    "describe": "Glob to match slot files (.json)",
     "type": "string"
   },
   "utters": {
     "alias": "u",
     "default": "samples/en_GB/*.utter",
-    "describe": "Glob to match utter files",
+    "describe": "Glob to match utter files (.utter)",
     "type": "string"
   }
 }

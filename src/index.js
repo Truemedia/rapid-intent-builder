@@ -3,6 +3,7 @@ const glob = require('glob-promise');
 const jsonfile = require('jsonfile');
 const path = require('path');
 const verboseUtterance = require('verbose-utterance');
+const {Lexicon, Lexeme} = require('lemme-lex');
 const options = require('./options.json');
 
 const yargs = require('yargs')
@@ -12,6 +13,7 @@ const yargs = require('yargs')
     .option('env', options.env)
     .option('invoke', options.invoke)
     .option('lexes', options.lexes)
+    .option('slots', options.slots)
     .option('utters', options.utters)
     .help('h')
     .alias('h', 'help');
@@ -34,11 +36,21 @@ let dest = yargs.argv.d;
 let env = yargs.argv.e;
 let invoke = yargs.argv.i;
 let lexPath = yargs.argv.l;
+let slotPath = yargs.argv.s;
 let utterPath = yargs.argv.u;
+
+/**
+  * Promises for file types
+  */
+function lex(files)
+{
+    return (files.txt != undefined) ? Lexicon.fromFile(files.txt) : Promise.resolve(null);
+}
 
 Promise.all([ // Get list of all files
   glob(utterPath),
-  glob(lexPath)
+  glob(lexPath),
+  glob(slotPath)
 ]).then(filePaths => { // Group files
   let intents = {};
   filePaths.map(files => {
@@ -54,10 +66,11 @@ Promise.all([ // Get list of all files
   return intents;
 }).then(intents => { // Build intents
   return Promise.all( Object.entries(intents).map(intent => {
-    let [name, opts] = intent;
-    return jsonfile.readFile(opts.json)
+    let [name, files] = intent;
+    return lex(files)
       .then(lex => {
-        return verboseUtterance(opts.utter, lex);
+        let tagTree = (lex != null) ? lex.byTags : null;
+        return verboseUtterance(files.utter, tagTree);
       }).then(utterances => {
         let keywords = []; // TODO: Populate this with slots
         switch (adapter) {

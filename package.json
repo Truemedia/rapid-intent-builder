@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "glob-promise": "^3.4.0",
-    "lemme-lex": "^0.1.0",
+    "lemme-lex": "^0.3.0",
     "verbose-utterance": "^1.1.0"
   }
 }
