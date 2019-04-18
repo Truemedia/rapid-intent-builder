@@ -5,6 +5,7 @@ const path = require('path');
 const verboseUtterance = require('verbose-utterance');
 const {Lexicon, Lexeme} = require('lemme-lex');
 const options = require('./options.json');
+const adapters = require('./adapters');
 
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
@@ -22,11 +23,11 @@ const yargs = require('yargs')
   * Adapters
   */
 // Molir
-const MolirIntent = require('./models/molir_intent');
-const Intents = require('./models/intents');
+const MolirIntent = require('./adapters/molir/intent');
+const Intents = require('./intents');
 // Alexa
-const Intent = require('./models/intent');
-const Interaction = require('./models/interaction');
+const Intent = require('./intent');
+const Interaction = require('./adapters/alexa/interaction');
 
 if (yargs.argv.h) { yargs.showHelp(); }
 
@@ -46,6 +47,8 @@ function lex(files)
 {
     return (files.txt != undefined) ? Lexicon.fromFile(files.txt) : Promise.resolve(null);
 }
+
+let adapterInstance = new adapters[adapter];
 
 Promise.all([ // Get list of all files
   glob(utterPath),
@@ -73,32 +76,18 @@ Promise.all([ // Get list of all files
         return verboseUtterance(files.utter, tagTree);
       }).then(utterances => {
         let keywords = []; // TODO: Populate this with slots
-        switch (adapter) {
-          case 'molir':
-            intent = new MolirIntent(name, utterances, keywords);
-          break;
-          default:
-            intent = new Intent(name, utterances, keywords);
-          break;
-        }
+        let intent = new adapterInstance.intent(name, utterances, keywords);
         return intent;
       });
   }));
 }).then(intents => { // Group intents and output
-  switch (adapter) {
-    case 'molir':
-      console.log('Exporting using adapter: molir');
-      intents = new Intents(intents);
-    break;
-    default:
-      console.log('Exporting using adapter: alexa');
-      intents = new Interaction(invoke, intents);
-    break;
-  }
+  console.log(`Exporting using adapter: ${adapter}`);
+  intents = new adapterInstance.intents(intents);;
+
   let formatting = (env == 'dev') ? { spaces: 2, EOL: '\r\n' } : {};
 
-  jsonfile.writeFile(dest, intents.toJson(), formatting, function (err) {
+  jsonfile.writeFile(intents.dest, intents.toJson(), formatting, function (err) {
     if (err) console.error(err)
-    console.log(`intent file created (${dest})`);
+    console.log(`intent file created (${intents.dest})`);
   });
 });

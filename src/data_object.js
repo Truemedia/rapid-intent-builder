@@ -7,4 +7,15 @@ module.exports = class DataObject
           return a;
         }, {});
     }
+
+    filename(ext = 'json', includeExt = true)
+    {
+      let filename = this.filenames[ext];
+
+      if (includeExt) {
+        filename += '.' + ext;
+      }
+
+      return filename;
+    }
 };
