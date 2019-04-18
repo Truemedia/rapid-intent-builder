@@ -1,9 +1,8 @@
 # Rapid intent builder
-Rapid intent builder for quick prototyping/development of complex bots
+Rapid intent builder for quick prototyping/development of complex intent/s
 
 Works for the following eco-sytems:
 - [Rasa](https://rasa.com/docs/nlu/)
-- [Molir](https://www.npmjs.com/package/molir)
 
 ## Installation
 ```bash
@@ -12,11 +11,18 @@ Works for the following eco-sytems:
 
 ## Usage
 ```bash
-  --adapter=adapter
-  --dest=dest
-  --env=env
-  --invoke=invoke
-  --lexes=lexes
-  --slots=slots
-  --utters=utters
+  rapid-intent-builder --utters=samples/en_GB/*.utter
 ```
+
+## Options
+Run `rapid-intent-builder --help` for a list of options (only env and utters currently supported)
+
+## Reference
+- [Utter file](https://www.npmjs.com/package/verbose-utterance)
+
+## Support
+### Current adapters
+- Rasa
+### Coming soon
+- Alexa
+- Molir

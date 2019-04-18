@@ -1,7 +1,7 @@
 {
   "name": "rapid-intent-builder",
-  "version": "0.0.1",
-  "description": "Rapid intent builder for quick prototyping/development of complex bots",
+  "version": "0.1.0",
+  "description": "Rapid intent builder for quick prototyping/development of complex intent/s",
   "bin": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
