@@ -4,7 +4,7 @@ class AlexaAdapter extends Adapter
 {
   constructor()
   {
-
+    super();
   }
 }
 

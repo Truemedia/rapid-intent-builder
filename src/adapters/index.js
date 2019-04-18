@@ -1,5 +1,5 @@
-const Alexa = require('./alexa');
-const Molir = require('./molir');
-const Rasa = require('./rasa');
+const alexa = require('./alexa');
+const molir = require('./molir');
+const rasa = require('./rasa');
 
-module.exports = {Alexa, Molir, Rasa};
+module.exports = {alexa, molir, rasa};

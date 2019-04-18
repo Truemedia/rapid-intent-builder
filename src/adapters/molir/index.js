@@ -4,7 +4,7 @@ class MolirAdapter extends Adapter
 {
   constructor()
   {
-
+    super();
   }
 }
 

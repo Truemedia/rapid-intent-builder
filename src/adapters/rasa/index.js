@@ -4,7 +4,7 @@ class RasaAdapter extends Adapter
 {
   constructor()
   {
-
+    super();
   }
 }
 
