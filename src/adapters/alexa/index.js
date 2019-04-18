@@ -1,4 +1,4 @@
-const Adapter = require('./adapter');
+const Adapter = require('./../adapter');
 
 class AlexaAdapter extends Adapter
 {
