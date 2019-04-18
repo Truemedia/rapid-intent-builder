@@ -4,15 +4,15 @@ const jsonfile = require('jsonfile');
 const path = require('path');
 const verboseUtterance = require('verbose-utterance');
 const {Lexicon, Lexeme} = require('lemme-lex');
-const options = require('./options.json');
+const options = require('./options');
 const adapters = require('./adapters');
 
 const yargs = require('yargs')
     .usage("$0 --f=sample.utter --e=molir")
     .option('adapter', options.adapter)
-    .option('dest', options.dest)
+    // .option('dest', options.dest)
     .option('env', options.env)
-    .option('invoke', options.invoke)
+    // .option('invoke', options.invoke)
     .option('lexes', options.lexes)
     .option('slots', options.slots)
     .option('utters', options.utters)
