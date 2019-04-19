@@ -82,12 +82,5 @@ Promise.all([ // Get list of all files
   }));
 }).then(intents => { // Group intents and output
   console.log(`Exporting using adapter: ${adapter}`);
-  intents = new adapterInstance.intents(intents);;
-
-  let formatting = (env == 'dev') ? { spaces: 2, EOL: '\r\n' } : {};
-
-  jsonfile.writeFile(intents.dest, intents.toJson(), formatting, function (err) {
-    if (err) console.error(err)
-    console.log(`intent file created (${intents.dest})`);
-  });
+  intents = adapterInstance.toFiles(env, intents);
 });

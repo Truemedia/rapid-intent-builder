@@ -44,7 +44,7 @@ class RasaIntents extends Intents
   get dest() // TODO: Make contributing options configurable
   {
     let filename = this.filename();
-    return `models/current/nlu/${filename}`;
+    return `nlu_data/${filename}`;
   }
 
   get filenames()

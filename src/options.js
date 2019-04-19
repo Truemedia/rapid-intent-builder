@@ -1,5 +1,5 @@
 module.exports = function() {
-  let adapters = ['rasa']; // Currently functional
+  let adapters = ['alexa', 'rasa']; // Currently functional
   let adapterList = adapters.join(', ');
 
   return {
