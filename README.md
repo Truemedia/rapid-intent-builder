@@ -2,6 +2,7 @@
 Rapid intent builder for quick prototyping/development of complex intent/s
 
 Works for the following eco-sytems:
+- [Alexa](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html)
 - [Rasa](https://rasa.com/docs/nlu/)
 
 ## Installation
@@ -22,7 +23,7 @@ Run `rapid-intent-builder --help` for a list of options (only env and utters cur
 
 ## Support
 ### Current adapters
-- Rasa
+- Alexa `rapid-intent-builder --adapter=alexa --invoke=skillName`
+- Rasa `rapid-intent-builder --adapter=rasa`
 ### Coming soon
-- Alexa
 - Molir
