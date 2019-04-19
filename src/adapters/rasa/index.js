@@ -15,7 +15,7 @@ class RasaAdapter extends Adapter
     return Intent;
   }
 
-  toFiles(env, intents)
+  toFiles(env, intents, invoke)
   {
     intents = new Intents(intents);
 

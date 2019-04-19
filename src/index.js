@@ -12,7 +12,7 @@ const yargs = require('yargs')
     .option('adapter', options.adapter)
     // .option('dest', options.dest)
     .option('env', options.env)
-    // .option('invoke', options.invoke)
+    .option('invoke', options.invoke)
     .option('lexes', options.lexes)
     .option('slots', options.slots)
     .option('utters', options.utters)
@@ -82,5 +82,5 @@ Promise.all([ // Get list of all files
   }));
 }).then(intents => { // Group intents and output
   console.log(`Exporting using adapter: ${adapter}`);
-  intents = adapterInstance.toFiles(env, intents);
+  intents = adapterInstance.toFiles(env, intents, invoke);
 });

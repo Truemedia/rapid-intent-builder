@@ -21,12 +21,12 @@ module.exports = function() {
       "describe": "Environment (dev or prod)",
       "type": "string"
     },
-    // "invoke": {
-    //   "alias": "i",
-    //   "default": "my skill",
-    //   "describe": "Phrase used to invoke skill (alexa only)",
-    //   "type": "string"
-    // },
+    "invoke": {
+      "alias": "i",
+      "default": "my skill",
+      "describe": "Phrase used to invoke skill (alexa only)",
+      "type": "string"
+    },
     "lexes": {
       "alias": "l",
       "default": "samples/en_GB/*.txt",
